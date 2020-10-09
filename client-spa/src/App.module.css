@@ -1,0 +1,20 @@
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em;
+  background: indigo;
+  color: whitesmoke;
+}
+
+.profile {
+  margin: 0.25em;
+  display: flex;
+  flex-direction: column;
+}
