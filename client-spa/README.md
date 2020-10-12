@@ -23,6 +23,7 @@ So I'll say the same here.
 ### Client
 
 * Rename `.env.sample` to `.env.local` and replace the values defined therein with the proper ones as they pop out of your azure set-up
+* Run `yarn build:cordova` to initially populate the `www` folder inside `../mobile-app`
 
 ### Server
 
