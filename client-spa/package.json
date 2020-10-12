@@ -16,11 +16,16 @@
     "react-scripts": "3.4.3",
     "typescript": "~3.7.2"
   },
+  "devDependencies": {
+    "copyfiles": "^2.4.0",
+    "prettier": "^2.1.2"
+  },
   "proxy": "https://localhost:5001",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "copy:cordova": "copyfiles -u 1 build/**/* ../mobile-app/www",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -37,8 +42,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "prettier": "^2.1.2"
   }
 }
