@@ -30,10 +30,7 @@ const msalConfig = {
   },
 };
 
-const apiScope = {
-  resourceUri: "https://localhost:5001/api/profile",
-  resourceScope: process.env.REACT_APP_RESOURCE_SCOPE as string,
-};
+const apiResourceScope = process.env.REACT_APP_RESOURCE_SCOPE as string;
 
 /**
  * Scopes you enter here will be consented once you authenticate. For a full list of available authentication parameters,
@@ -45,12 +42,12 @@ export const loginRequest = {
 
 // Add here scopes for access token to be used at the API endpoints.
 export const tokenRequest = {
-  scopes: [apiScope.resourceScope],
+  scopes: [apiResourceScope],
 };
 
 // Add here scopes for silent token request
 export const silentRequest = {
-  scopes: ["openid", "profile", apiScope.resourceScope],
+  scopes: ["openid", "profile", apiResourceScope],
 };
 
 const msalApp = new PublicClientApplication(msalConfig);

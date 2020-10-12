@@ -39,7 +39,7 @@ function ProfileDataGrid({
   profileData: ProfileData;
 }) {
   return (
-    <ul>
+    <ul className={styles.profileData}>
       <li>
         <label>Id</label>
         <span>{id}</span>

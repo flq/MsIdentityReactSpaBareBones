@@ -14,3 +14,24 @@
 .loadButton {
   padding: 0.5em 1em;
 }
+
+.profileData {
+  list-style: none;
+}
+
+.profileData li:not(:first-child) {
+  margin-top: 0.5em;
+}
+
+.profileData label {
+  display: block;  font-style: italic;
+}
+
+.profileData span {
+  display: block;
+  font-weight: bold;
+}
+
+.profileData span:empty:before {
+  content: "--";
+}
