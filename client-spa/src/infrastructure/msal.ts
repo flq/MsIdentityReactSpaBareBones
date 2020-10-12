@@ -59,7 +59,25 @@ export function useMsal() {
     username: "",
   });
 
-  const getAccounts = async () => {
+  const acquireToken = useCallback(async (account: AccountInfo) => {
+    /**
+     * See here for more info on account retrieval:
+     * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-common/docs/Accounts.md
+     */
+    const request = { ...silentRequest, account };
+
+    try {
+      return await msalApp.acquireTokenSilent(request);
+    } catch {
+      try {
+        return await msalApp.acquireTokenPopup(tokenRequest);
+      } catch (error) {
+        setError(error);
+      }
+    }
+  }, []);
+
+  const getAccounts = useCallback(async () => {
     const currentAccounts = msalApp.getAllAccounts();
 
     if (currentAccounts === null) {
@@ -85,9 +103,9 @@ export function useMsal() {
         }
       }
     }
-  };
+  }, [acquireToken]);
 
-  const handleResponse = async (response: AuthenticationResult | null) => {
+  const handleResponse = useCallback(async (response: AuthenticationResult | null) => {
     if (response !== null) {
       setError(null);
       setProfile({
@@ -99,7 +117,7 @@ export function useMsal() {
     } else {
       await getAccounts();
     }
-  };
+  }, [getAccounts]);
 
   const signIn = useCallback(async () => {
     try {
@@ -113,7 +131,7 @@ export function useMsal() {
     } catch (error) {
       setError(error);
     }
-  }, []);
+  }, [acquireToken, handleResponse]);
 
   const signOut = useCallback(async () => {
     await msalApp.logout({
@@ -121,27 +139,9 @@ export function useMsal() {
     });
   }, [profile]);
 
-  const acquireToken = useCallback(async (account: AccountInfo) => {
-    /**
-     * See here for more info on account retrieval:
-     * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-common/docs/Accounts.md
-     */
-    const request = { ...silentRequest, account };
-
-    try {
-      return await msalApp.acquireTokenSilent(request);
-    } catch {
-      try {
-        return await msalApp.acquireTokenPopup(tokenRequest);
-      } catch (error) {
-        setError(error);
-      }
-    }
-  }, []);
-
   useEffect(() => {
     getAccounts().catch((error) => setError(error));
-  }, []);
+  }, [getAccounts]);
 
   return { profile, error, signIn, signOut, acquireToken };
 }

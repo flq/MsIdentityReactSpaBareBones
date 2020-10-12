@@ -26,6 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "copy:cordova": "copyfiles -u 1 build/**/* ../mobile-app/www",
+    "build:cordova": "yarn build && yarn copy:cordova",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
