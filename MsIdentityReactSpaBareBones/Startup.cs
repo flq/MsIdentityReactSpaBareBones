@@ -27,6 +27,15 @@ namespace MsIdentityReactSpaBareBones
                 .AddMicrosoftGraph(Configuration.GetSection("DownstreamApi"))
                 .AddInMemoryTokenCaches();
             services.AddControllers();
+            
+            services.AddSignalR().AddAzureSignalR(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("SignalRServiceConnection");
+                // Reducing connections to 1 for local dev (default is 5)
+                options.ConnectionCount = 1;
+                options.ConnectionString = connectionString;
+            });
+            
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp"; });
         }
 
@@ -51,7 +60,11 @@ namespace MsIdentityReactSpaBareBones
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<PushHub>("/PushHub");
+            });
         }
     }
 }
